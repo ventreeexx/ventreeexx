@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ventreeexx</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+            scroll-behavior: smooth;
+        }
+        
+        /* Karty "Dlaczego my?" */
+        .feature-card {
+            background-color: #111111;
+            border: 1px solid #222222;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            border-color: #ffffff;
+        }
+        
+        /* Kwadratowe wstawki na ikony */
+        .icon-container {
+            width: 44px;
+            height: 44px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center">
+
+    <!-- Navbar -->
+    <nav class="w-full max-w-6xl mx-auto px-6 py-8 flex justify-between items-center">
+        <div class="text-2xl font-extrabold tracking-wider text-white uppercase">
+            ventreeexx
+        </div>
+        <div class="flex gap-8 text-sm font-bold tracking-widest text-gray-300 uppercase">
+            <a href="#features" class="hover:text-white transition-colors">Funkcje</a>
+            <a href="https://discord.gg/xcyj8h7J" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">CRACK3D</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="w-full max-w-6xl mx-auto px-6 flex-1 flex flex-col items-center justify-center mt-16 mb-24 md:mt-24 md:mb-32">
+        <h1 class="text-5xl md:text-7xl font-extrabold tracking-widest mb-6 text-center text-white">
+            VENTREEEXX
+        </h1>
+        <p class="text-gray-400 text-lg md:text-xl text-center max-w-2xl mb-12">
+            Zapewniamy najwyższą jakość i niezrównaną wydajność. Dołącz do naszej społeczności i zyskaj przewagę.
+        </p>
+
+        <!-- Przycisk Discord -->
+        <a href="https://discord.gg/xcyj8h7J" target="_blank" rel="noopener noreferrer" 
+           class="inline-flex items-center gap-3 bg-[#5865F2] hover:bg-[#4752C4] text-white px-8 py-4 rounded-md font-bold text-lg transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/>
+            </svg>
+            Discord
+        </a>
+    </main>
+
+    <!-- Features Section -->
+    <section id="features" class="w-full max-w-6xl mx-auto px-6 mb-32">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-16 tracking-wide text-white">DLACZEGO MY?</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Feature 1 -->
+            <div class="feature-card rounded-2xl p-8">
+                <div class="icon-container text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-white">Wydajność</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Zaprojektowane z myślą o szybkości. Nasz klient zapewnia najwyższe możliwe FPS nawet na słabych maszynach.
+                </p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-card rounded-2xl p-8">
+                <div class="icon-container text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-white">Bezpieczeństwo</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Zaawansowane obejścia i regularne aktualizacje, aby utrzymać Cię niewykrytym na większości serwerów.
+                </p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-card rounded-2xl p-8">
+                <div class="icon-container text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-white">Aktualizacje</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Ciągły rozwój. Każdego tygodnia dodajemy nowe funkcje i poprawki na podstawie opinii użytkowników.
+                </p>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="feature-card rounded-2xl p-8">
+                <div class="icon-container text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-white">Wsparcie</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Potrzebujesz pomocy? Nasz dedykowany zespół wsparcia jest dostępny 24/7 na naszym serwerze Discord.
+                </p>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="feature-card rounded-2xl p-8">
+                <div class="icon-container text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-white">Społeczność</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Dołącz do ponad 100+ aktywnych użytkowników. Dziel się konfiguracjami, strategiami i grajcie razem.
+                </p>
+            </div>
+
+            <!-- Feature 6 -->
+            <div class="feature-card rounded-2xl p-8">
+                <div class="icon-container text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-white">Personalizacja</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    W pełni modularny system. Zmieniaj wszystko od wyglądu po ustawienia walki w naszym intuicyjnym GUI.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>
