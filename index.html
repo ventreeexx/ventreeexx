@@ -8,11 +8,15 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
         
+        /* Aktywacja płynnego przewijania na całej stronie */
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #050505;
             color: #ffffff;
-            scroll-behavior: smooth;
             overflow-x: hidden;
         }
         
@@ -136,10 +140,7 @@
 <body class="min-h-screen flex flex-col items-center">
 
     <!-- Navbar -->
-    <nav class="w-full max-w-6xl mx-auto px-6 py-8 flex justify-between items-center fade-in-nav">
-        <div class="text-2xl font-extrabold tracking-wider text-white uppercase transition-transform hover:scale-105 cursor-pointer">
-            ventreeexx
-        </div>
+    <nav class="w-full max-w-6xl mx-auto px-6 py-8 flex justify-end items-center fade-in-nav">
         <div class="flex gap-8 text-sm font-bold tracking-widest text-gray-300 uppercase">
             <a href="#features" class="nav-link hover:text-white hover:text-shadow-[0_0_10px_white] transition-all">Funkcje</a>
             <a href="https://discord.gg/xcyj8h7J" target="_blank" rel="noopener noreferrer" class="nav-link hover:text-[#5865F2] hover:text-shadow-[0_0_15px_#5865F2] transition-all">Discord</a>
@@ -168,7 +169,8 @@
     </main>
 
     <!-- Features Section -->
-    <section id="features" class="w-full max-w-6xl mx-auto px-6 mb-32 overflow-hidden">
+    <!-- scroll-mt-24 upewnia się, że tytuł sekcji nie wjedzie pod samą górną krawędź ekranu -->
+    <section id="features" class="w-full max-w-6xl mx-auto px-6 mb-20 overflow-hidden scroll-mt-24">
         <h2 class="reveal text-3xl md:text-4xl font-extrabold text-center mb-16 tracking-wide text-white transition-transform hover:scale-105 duration-300">DLACZEGO MY?</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
@@ -244,6 +246,13 @@
 
         </div>
     </section>
+
+    <!-- Footer z napisem -->
+    <footer class="w-full pb-8 pt-4 flex justify-center items-center reveal">
+        <p class="text-gray-600 text-sm font-semibold tracking-widest uppercase hover:text-gray-300 transition-colors duration-300 cursor-default">
+            by ventreeexx
+        </p>
+    </footer>
 
     <!-- Skrypt do odpalania animacji po zjechaniu (IntersectionObserver) -->
     <script>
