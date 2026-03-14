@@ -19,16 +19,96 @@
             color: #ffffff;
             overflow-x: hidden;
         }
+
+        /* Niestandardowa poświata kursora */
+        #cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 60%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+            mix-blend-mode: screen;
+            opacity: 1;
+        }
+
+        /* Ukrycie poświaty po najechaniu na interaktywne elementy */
+        .cursor-hidden {
+            opacity: 0 !important;
+        }
+
+        /* Pasek postępu przewijania na samej górze */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: #5865F2;
+            z-index: 9999;
+            transition: width 0.1s;
+            box-shadow: 0 0 10px #5865F2, 0 0 20px #5865F2;
+        }
+
+        /* Animowane plamy/mgławice w tle (Ambient Blobs) */
+        .bg-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.25;
+            animation: blob-float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .blob-1 {
+            top: -20%; left: -10%;
+            width: 50vw; height: 50vw;
+            background: rgba(88, 101, 242, 0.6);
+            animation-duration: 25s;
+        }
+        .blob-2 {
+            bottom: -20%; right: -10%;
+            width: 60vw; height: 60vw;
+            background: rgba(255, 255, 255, 0.1);
+            animation-duration: 30s;
+            animation-direction: alternate-reverse;
+        }
+        @keyframes blob-float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(10vw, 5vh) scale(1.1); }
+            100% { transform: translate(-5vw, 15vh) scale(0.9); }
+        }
         
         /* Karty "Dlaczego my?" */
         .feature-card {
             background: linear-gradient(180deg, #111111 0%, #0a0a0a 100%);
             border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bardzo gładka, sprężysta animacja */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             transform-origin: center;
+            overflow: hidden; /* Ważne, by błysk nie wychodził poza kartę */
         }
         
+        /* Błysk na kartach (Shine effect) przechodzący z lewej do prawej na hover */
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -150%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.06), transparent);
+            transform: skewX(-25deg);
+            transition: 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .feature-card:hover::before {
+            left: 200%;
+        }
+
         .feature-card:hover {
             border-color: rgba(255, 255, 255, 0.25);
             transform: translateY(-8px) scale(1.03);
@@ -47,6 +127,8 @@
             justify-content: center;
             margin-bottom: 1.25rem;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 2;
         }
 
         .feature-card:hover .icon-container {
@@ -60,15 +142,17 @@
         .glow-text {
             transition: text-shadow 0.4s ease-out, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: default;
+            position: relative;
+            display: inline-block;
         }
         
         .glow-text:hover {
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 60px rgba(255, 255, 255, 0.4);
             transform: scale(1.03);
+            letter-spacing: 2px; /* Lekkie rozsunięcie liter na hover */
         }
 
         /* --- ANIMACJE WEJŚCIOWE (REVEAL) --- */
-        /* Z ulepszonym rozmyciem (blur) dla świetnego efektu gładkości */
         .reveal {
             opacity: 0;
             transform: translateY(40px) scale(0.97);
@@ -95,9 +179,10 @@
             filter: blur(0);
         }
 
-        /* Pływający efekt na cały kontener przycisku */
+        /* Pływający efekt na cały kontener przycisku (klasyczny wrapper bez fal) */
         .float-wrapper {
             animation: floating 5s ease-in-out infinite;
+            position: relative;
         }
 
         @keyframes floating {
@@ -135,31 +220,49 @@
         @keyframes slideDownNav {
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Animacja serca (heartbeat) dla stopki */
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        }
+        .heartbeat-hover:hover {
+            animation: heartbeat 1.5s ease-in-out infinite;
+            color: #ffffff;
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center">
+<body class="min-h-screen flex flex-col items-center relative">
+
+    <!-- Niestandardowa poświata kursora -->
+    <div id="cursor-glow"></div>
+
+    <!-- Animowany pasek postępu przewijania i tła -->
+    <div id="scroll-progress"></div>
+    <div class="bg-blob blob-1 pointer-events-none"></div>
+    <div class="bg-blob blob-2 pointer-events-none"></div>
 
     <!-- Navbar -->
-    <nav class="w-full max-w-6xl mx-auto px-6 py-8 flex justify-end items-center fade-in-nav">
+    <nav class="w-full max-w-6xl mx-auto px-6 py-8 flex justify-end items-center fade-in-nav relative z-20 interactive-el">
         <div class="flex gap-8 text-sm font-bold tracking-widest text-gray-300 uppercase">
-            <a href="#features" class="nav-link hover:text-white hover:text-shadow-[0_0_10px_white] transition-all">Funkcje</a>
-            <a href="https://discord.gg/xcyj8h7J" target="_blank" rel="noopener noreferrer" class="nav-link hover:text-[#5865F2] hover:text-shadow-[0_0_15px_#5865F2] transition-all">Discord</a>
+            <a href="#features" class="nav-link hover:text-white hover:text-shadow-[0_0_10px_white] transition-all interactive-el">Funkcje</a>
+            <a href="https://discord.gg/xcyj8h7J" target="_blank" rel="noopener noreferrer" class="nav-link hover:text-[#5865F2] hover:text-shadow-[0_0_15px_#5865F2] transition-all interactive-el">Discord</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <main class="w-full max-w-6xl mx-auto px-6 flex-1 flex flex-col items-center justify-center mt-16 mb-24 md:mt-24 md:mb-32">
-        <h1 class="reveal glow-text text-5xl md:text-7xl font-extrabold tracking-widest mb-6 text-center text-white">
+    <main class="w-full max-w-6xl mx-auto px-6 flex-1 flex flex-col items-center justify-center mt-16 mb-24 md:mt-24 md:mb-32 relative z-10">
+        <h1 class="reveal glow-text text-5xl md:text-7xl font-extrabold tracking-widest mb-6 text-center text-white interactive-el">
             VENTREEEXX
         </h1>
-        <p class="reveal delay-100 text-gray-400 text-lg md:text-xl text-center max-w-2xl mb-12 transition-all hover:text-gray-300">
+        <p class="reveal delay-100 text-gray-400 text-lg md:text-xl text-center max-w-2xl mb-12 transition-all hover:text-gray-300 interactive-el">
             Jestem ventreeexx! na tej stronie znajduja sie moje projekty i ta strone bede aktywnie ulepszal.
         </p>
 
-        <!-- Przycisk Discord w wrapperze do pływania (float) -->
-        <div class="reveal-scale delay-200 float-wrapper">
+        <!-- Przycisk Discord w klasycznym wrapperze (lewitacja bez fal pulse-ring) -->
+        <div class="reveal-scale delay-200 float-wrapper interactive-el">
             <a href="https://discord.gg/xcyj8h7J" target="_blank" rel="noopener noreferrer" 
-               class="group inline-flex items-center gap-3 bg-[#5865F2] hover:bg-[#4752C4] text-white px-8 py-4 rounded-md font-bold text-lg transition-all shadow-[0_0_15px_rgba(88,101,242,0.5)] hover:shadow-[0_0_30px_rgba(88,101,242,0.8)] hover:-translate-y-2">
+               class="group relative z-10 inline-flex items-center gap-3 bg-[#5865F2] hover:bg-[#4752C4] text-white px-8 py-4 rounded-md font-bold text-lg transition-all shadow-[0_0_15px_rgba(88,101,242,0.5)] hover:shadow-[0_0_30px_rgba(88,101,242,0.8)] hover:-translate-y-2">
                 <svg class="w-6 h-6 transition-transform group-hover:scale-110 group-hover:rotate-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/>
                 </svg>
@@ -169,77 +272,76 @@
     </main>
 
     <!-- Features Section -->
-    <!-- scroll-mt-24 upewnia się, że tytuł sekcji nie wjedzie pod samą górną krawędź ekranu -->
-    <section id="features" class="w-full max-w-6xl mx-auto px-6 mb-20 overflow-hidden scroll-mt-24">
-        <h2 class="reveal text-3xl md:text-4xl font-extrabold text-center mb-16 tracking-wide text-white transition-transform hover:scale-105 duration-300">DLACZEGO MY?</h2>
+    <section id="features" class="w-full max-w-6xl mx-auto px-6 mb-20 overflow-hidden scroll-mt-24 relative z-10">
+        <h2 class="reveal text-3xl md:text-4xl font-extrabold text-center mb-16 tracking-wide text-white transition-transform hover:scale-105 duration-300 interactive-el">DLACZEGO MY?</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
             
-            <!-- Tło świecące pod kartami dla lepszego efektu na hovrze (opcjonalnie) -->
+            <!-- Tło świecące pod kartami dla lepszego efektu -->
             <div class="absolute inset-0 bg-blue-500/5 blur-[100px] rounded-full pointer-events-none -z-10"></div>
 
             <!-- Feature 1 -->
-            <div class="reveal delay-100 feature-card rounded-2xl p-8 group">
+            <div class="reveal delay-100 feature-card rounded-2xl p-8 group interactive-el">
                 <div class="icon-container text-gray-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
-                <h3 class="text-xl font-bold mb-3 text-white transition-colors group-hover:text-blue-200">Wygoda</h3>
-                <p class="text-gray-400 text-sm leading-relaxed transition-colors group-hover:text-gray-300">
+                <h3 class="text-xl font-bold mb-3 text-white transition-colors group-hover:text-blue-200 relative z-10">Wygoda</h3>
+                <p class="text-gray-400 text-sm leading-relaxed transition-colors group-hover:text-gray-300 relative z-10">
                     Wszystkie cheaty sa w specjalnej kategorii dzieki czemu pobiera sie je wygodnie i bezpiecznie.
                 </p>
             </div>
 
             <!-- Feature 2 -->
-            <div class="reveal delay-200 feature-card rounded-2xl p-8 group">
+            <div class="reveal delay-200 feature-card rounded-2xl p-8 group interactive-el">
                 <div class="icon-container text-gray-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                 </div>
-                <h3 class="text-xl font-bold mb-3 text-white transition-colors group-hover:text-blue-200">Bezpieczeństwo</h3>
-                <p class="text-gray-400 text-sm leading-relaxed transition-colors group-hover:text-gray-300">
+                <h3 class="text-xl font-bold mb-3 text-white transition-colors group-hover:text-blue-200 relative z-10">Bezpieczeństwo</h3>
+                <p class="text-gray-400 text-sm leading-relaxed transition-colors group-hover:text-gray-300 relative z-10">
                     Zaawansowane obejścia i regularne aktualizacje, aby utrzymać Cię niewykrytym na większości serwerów.
                 </p>
             </div>
 
             <!-- Feature 3 -->
-            <div class="reveal delay-300 feature-card rounded-2xl p-8 group">
+            <div class="reveal delay-300 feature-card rounded-2xl p-8 group interactive-el">
                 <div class="icon-container text-gray-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                 </div>
-                <h3 class="text-xl font-bold mb-3 text-white transition-colors group-hover:text-blue-200">Aktualizacje</h3>
-                <p class="text-gray-400 text-sm leading-relaxed transition-colors group-hover:text-gray-300">
+                <h3 class="text-xl font-bold mb-3 text-white transition-colors group-hover:text-blue-200 relative z-10">Aktualizacje</h3>
+                <p class="text-gray-400 text-sm leading-relaxed transition-colors group-hover:text-gray-300 relative z-10">
                     Ciągły rozwój. Każdego tygodnia dodajemy nowe funkcje i poprawki na podstawie opinii użytkowników.
                 </p>
             </div>
 
             <!-- Feature 4 -->
-            <div class="reveal delay-400 feature-card rounded-2xl p-8 group">
+            <div class="reveal delay-400 feature-card rounded-2xl p-8 group interactive-el">
                 <div class="icon-container text-gray-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
                 </div>
-                <h3 class="text-xl font-bold mb-3 text-white transition-colors group-hover:text-blue-200">Wsparcie</h3>
-                <p class="text-gray-400 text-sm leading-relaxed transition-colors group-hover:text-gray-300">
+                <h3 class="text-xl font-bold mb-3 text-white transition-colors group-hover:text-blue-200 relative z-10">Wsparcie</h3>
+                <p class="text-gray-400 text-sm leading-relaxed transition-colors group-hover:text-gray-300 relative z-10">
                     Potrzebujesz pomocy? Nasz dedykowany zespół wsparcia jest dostępny 24/7 na naszym serwerze Discord.
                 </p>
             </div>
 
             <!-- Feature 5 -->
-            <div class="reveal delay-500 feature-card rounded-2xl p-8 group">
+            <div class="reveal delay-500 feature-card rounded-2xl p-8 group interactive-el">
                 <div class="icon-container text-gray-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                 </div>
-                <h3 class="text-xl font-bold mb-3 text-white transition-colors group-hover:text-blue-200">Społeczność</h3>
-                <p class="text-gray-400 text-sm leading-relaxed transition-colors group-hover:text-gray-300">
+                <h3 class="text-xl font-bold mb-3 text-white transition-colors group-hover:text-blue-200 relative z-10">Społeczność</h3>
+                <p class="text-gray-400 text-sm leading-relaxed transition-colors group-hover:text-gray-300 relative z-10">
                     Dołącz do ponad 100+ aktywnych użytkowników. Dziel się konfiguracjami, strategiami i grajcie razem.
                 </p>
             </div>
 
             <!-- Feature 6 -->
-            <div class="reveal delay-600 feature-card rounded-2xl p-8 group">
+            <div class="reveal delay-600 feature-card rounded-2xl p-8 group interactive-el">
                 <div class="icon-container text-gray-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
                 </div>
-                <h3 class="text-xl font-bold mb-3 text-white transition-colors group-hover:text-blue-200">Administracja</h3>
-                <p class="text-gray-400 text-sm leading-relaxed transition-colors group-hover:text-gray-300">
+                <h3 class="text-xl font-bold mb-3 text-white transition-colors group-hover:text-blue-200 relative z-10">Administracja</h3>
+                <p class="text-gray-400 text-sm leading-relaxed transition-colors group-hover:text-gray-300 relative z-10">
                     Mamy Administracje ktora jest na wysokim poziomie umiejetnosci posiadamy swojego bota discord i doswiadczenie.
                 </p>
             </div>
@@ -247,16 +349,40 @@
         </div>
     </section>
 
-    <!-- Footer z napisem -->
-    <footer class="w-full pb-8 pt-4 flex justify-center items-center reveal">
-        <p class="text-gray-600 text-sm font-semibold tracking-widest uppercase hover:text-gray-300 transition-colors duration-300 cursor-default">
+    <!-- Footer z napisem i nową animacją -->
+    <footer class="w-full pb-8 pt-4 flex justify-center items-center reveal relative z-10 interactive-el">
+        <p class="heartbeat-hover text-gray-600 text-sm font-semibold tracking-widest uppercase transition-colors duration-300 cursor-default">
             by ventreeexx
         </p>
     </footer>
 
-    <!-- Skrypt do odpalania animacji po zjechaniu (IntersectionObserver) -->
+    <!-- Skrypty -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // 0. Obsługa poświaty kursora
+            const cursorGlow = document.getElementById('cursor-glow');
+            
+            // Śledzenie myszki i przesuwanie poświaty
+            document.addEventListener('mousemove', (e) => {
+                cursorGlow.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+            });
+
+            // Ukrywanie poświaty, gdy kursor znajduje się na ważnych, interaktywnych elementach (przyciski, linki, karty)
+            const interactives = document.querySelectorAll('a, button, .interactive-el');
+            interactives.forEach(el => {
+                el.addEventListener('mouseenter', () => cursorGlow.classList.add('cursor-hidden'));
+                el.addEventListener('mouseleave', () => cursorGlow.classList.remove('cursor-hidden'));
+            });
+
+            // 1. Skrypt do paska postępu przewijania na górze
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                document.getElementById('scroll-progress').style.width = scrolled + '%';
+            });
+
+            // 2. Observer odpalający animacje przy zjeżdżaniu (IntersectionObserver)
             const observerOptions = {
                 root: null,
                 rootMargin: "0px",
@@ -267,7 +393,6 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add("active");
-                        // Odpięcie obserwatora po pierwszej animacji (aby się nie powtarzała bez końca)
                         observer.unobserve(entry.target);
                     }
                 });
